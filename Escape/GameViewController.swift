@@ -5,24 +5,22 @@
 //  Created by Администратор on 16.11.2017.
 //  Copyright © 2017 alejandra. All rights reserved.
 //
-import GoogleMobileAds
 import UIKit
 import SpriteKit
-import GameKit
+//import GameKit
 
-class GameViewController: UIViewController, GADInterstitialDelegate, GKGameCenterControllerDelegate  {
+class GameViewController: UIViewController {
     
-    var interstitial: GADInterstitial?
+    //var interstitial: GADInterstitial?
   
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        registerNotificationToShowAds()
-        authenticationPlayer()
+        //registerNotificationToShowAds()
+        //authenticationPlayer()
     }
     
     // MARK: GoogleAdMob
-    func registerNotificationToShowAds() {
+    /*func registerNotificationToShowAds() {
         NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.showAd(_:)),
                                                name: NSNotification.Name(rawValue: "gameStateOff"), object: nil)
     }
@@ -45,7 +43,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GKGameCente
         if (ad.isReady) {
             interstitial?.present(fromRootViewController: self)
         }
-    }
+    }*/
     
    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -57,7 +55,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GKGameCente
     }
     
     // MARK: Game Center authentication
-    func authenticationPlayer() {
+   /* func authenticationPlayer() {
         let localPlayer = GKLocalPlayer.localPlayer()
         localPlayer.authenticateHandler = {
             (view, error) in
@@ -74,7 +72,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GKGameCente
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
-    
+    */
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask { return .landscape }
     override var prefersStatusBarHidden: Bool { return true }
 }

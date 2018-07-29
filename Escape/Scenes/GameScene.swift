@@ -4,8 +4,7 @@
 //
 //  Created by Администратор on 16.11.2017.
 //  Copyright © 2017 alejandra. All rights reserved.
-//
-import GoogleMobileAds
+
 import SpriteKit
 import GameKit
 
@@ -35,7 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     var leaderBoardNode = SKSpriteNode()
     var backgroundMusic = SKAudioNode()
     var bigBangSound = SKAction.playSoundFileNamed("big-bang.mp3", waitForCompletion: false)
-  
+    
     override func didMove(to view: SKView) {
         setupScene()
         addStarsEmitterNode()
@@ -47,16 +46,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     }
     
     func scheduleTimer() {
-         timer = Timer.scheduledTimer(timeInterval: 0.30,
-                                      target: self,
-                                      selector: #selector(createEnemy),
-                                      userInfo: nil,
-                                      repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.30,
+                                     target: self,
+                                     selector: #selector(createEnemy),
+                                     userInfo: nil,
+                                     repeats: true)
     }
     
     @objc func createEnemy() {
         enemies = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: enemies) as! [String]
-        let randomDistribution = GKRandomDistribution(lowestValue: 50, highestValue: 375) // 736
+        let randomDistribution = GKRandomDistribution(lowestValue: 50, highestValue: 736)//375) // 736
         
         let sprite = SKSpriteNode(imageNamed: enemies[0])
         sprite.position = CGPoint(x: 1200, y: randomDistribution.nextInt())
@@ -100,7 +99,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     }
     
     func addLeaderboardButton() {
-     
         leaderBoardNode = SKSpriteNode(color: .green, size: CGSize(width: 120, height: 20))
         leaderBoardNode.position = CGPoint(x: self.frame.width / 2, y: 26)
         leaderBoardNode.alpha = 0.4
@@ -115,23 +113,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         leaderBoardLabel.text = "Leaderboard"
         addChild(leaderBoardLabel)
     }
-
+    
     func addBackgroundMusic() {
         backgroundMusic = SKAudioNode(fileNamed: "bg5.mp3")
         backgroundMusic.autoplayLooped = true
         addChild(backgroundMusic)
     }
-
+    
     func showMenuButtons() {
+        let buttonsSize = CGSize(width: 150, height: 47)
+        
         playButton = SKSpriteNode(imageNamed: "button")
-        playButton.size = CGSize(width: 150, height: 47)
+        playButton.size = buttonsSize
         playButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 30)
         playButton.name = "restartGame"
         playButton.zPosition = 5
         addChild(playButton)
         
         goToMenu = SKSpriteNode(imageNamed: "buttonM")
-        goToMenu.size = CGSize(width: 150, height: 47)
+        goToMenu.size = buttonsSize
         goToMenu.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 30)
         goToMenu.name = "returnToMenu"
         goToMenu.zPosition = 5
@@ -156,16 +156,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             savingBestScore()
         }
     }
-    
     // Save high score
     func savingBestScore() {
         UserDefaults.standard.set(score, forKey: "HIGHSCORE")
         bestScoreLabel.text = "Best: \(UserDefaults().integer(forKey: "HIGHSCORE"))"
     }
-    
-    func postNotificationToShowAds() {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameStateOff"), object: nil)
-    }
+    // MARK: - Displaying ads on crashing eventIt is a pity : (
+    /*func postNotificationToShowAds() {
+     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameStateOff"), object: nil)
+     }*/
     
     func didBegin(_ contact: SKPhysicsContact) {
         let explosion = SKEmitterNode(fileNamed: "explosion")!
@@ -176,8 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         backgroundMusic.removeFromParent()
         run(bigBangSound)
         showMenuButtons()
-        postNotificationToShowAds()
-    
+        //postNotificationToShowAds()
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -202,15 +200,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 goToScene(scene: MenuScene(size: self.size))
                 backgroundMusic.removeFromParent()
             } else if touchedSprite.name == "leaderboard" {
-                submitHighScoreGC(score: score)
                 showLeaderBoard()
+                submitHighScoreGC(score: bestScore)
             }
         }
     }
     
     func addStarsEmitterNode() {
         stars = SKEmitterNode(fileNamed: "Stars")!
-        stars.position = CGPoint(x: 800, y: 375)
+        //stars.position = CGPoint(x: 1200, y: 375)
+        stars.setScale(1.5)
+        stars.position = CGPoint(x: 1024, y: 384)
         stars.advanceSimulationTime(10)
         addChild(stars)
         stars.zPosition = -1
@@ -250,9 +250,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
-    
 }  // end GameScene
-
-
-
-

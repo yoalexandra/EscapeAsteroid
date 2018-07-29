@@ -5,9 +5,7 @@
 //  Created by Администратор on 16.11.2017.
 //  Copyright © 2017 alejandra. All rights reserved.
 //
-
 import UIKit
-import GoogleMobileAds
 import CoreData
 
 @UIApplicationMain
@@ -16,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        GADMobileAds.configure(withApplicationID: "ca-app-pub-4458876222654719~6025800260")
+        //GADMobileAds.configure(withApplicationID: "ca-app-pub-4458876222654719~6025800260")
         return true
     }
     
